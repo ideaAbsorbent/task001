@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+#spring boot properties
+application.properties
+
 # Log file
 *.log
 
@@ -21,3 +24,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/task001.iml
