@@ -25,7 +25,7 @@ public class CustomersService {
         return customersRepo.save(customer);
     }
 
-    public Set<Customer> getCustomersByCreditIds(Set<Long> creditIds) {
+    public Set<Customer> getCustomersByCreditIds(Set<Integer> creditIds) {
         return customersRepo.getCustomersByCreditIdIn(creditIds);
     }
 

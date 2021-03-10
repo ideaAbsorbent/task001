@@ -18,10 +18,10 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "Customers_ID_seq")
     @Column(name = "ID")
-    private Long id;
+    private Integer id;
 
     @Column(name = "CreditID")
-    private Long creditId;
+    private Integer creditId;
 
     @Column(name = "FirstName")
     private String firstName;

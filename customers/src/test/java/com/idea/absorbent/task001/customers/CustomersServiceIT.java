@@ -30,7 +30,7 @@ public class CustomersServiceIT {
     @Transactional
      void shouldSaveCustomer() {
         //given a valid customer DTO
-        CreateCustomerDto dto = new CreateCustomerDto(1L,"TestName","TestSurname","84010329229");
+        CreateCustomerDto dto = new CreateCustomerDto(1,"TestName","TestSurname","84010329229");
 
         //when creating the customer
         Customer customer =  this.testedService.createCustomer(dto);
@@ -47,12 +47,12 @@ public class CustomersServiceIT {
 
     @Test
     @Transactional
-    void shouldThrowException() {
+    void shouldResourceAlreadyExists() {
         //given an existing customer
-        CreateCustomerDto dto = new CreateCustomerDto(12L,"TestName","TestSurname","84010329229");
+        CreateCustomerDto dto = new CreateCustomerDto(12,"TestName","TestSurname","84010329229");
         Customer customer =  this.testedService.createCustomer(dto);
 
-        CreateCustomerDto duplicate = new CreateCustomerDto(12L,"differentName","differentSurname","84010329229");
+        CreateCustomerDto duplicate = new CreateCustomerDto(12,"differentName","differentSurname","84010329229");
         //when creating a duplicate
 
         //should throw and exception
@@ -63,17 +63,17 @@ public class CustomersServiceIT {
      Iterable<DynamicTest> shouldRetrieveCustomers() {
         List<CreateCustomerDto> data = new ArrayList<>();
 
-        data.add(new CreateCustomerDto(2L,"TestName2","TestSurname2","50030133298"));
-        data.add(new CreateCustomerDto(3L,"TestName3","TestSurname3","91032885165"));
-        data.add(new CreateCustomerDto(3L,"TestName4","TestSurname4","87030586573"));
-        data.add(new CreateCustomerDto(4L,"TestName5","TestSurname5","49050843791"));
-        data.add(new CreateCustomerDto(7L,"TestName6","TestSurname6","93101452542"));
+        data.add(new CreateCustomerDto(2,"TestName2","TestSurname2","50030133298"));
+        data.add(new CreateCustomerDto(3,"TestName3","TestSurname3","91032885165"));
+        data.add(new CreateCustomerDto(3,"TestName4","TestSurname4","87030586573"));
+        data.add(new CreateCustomerDto(4,"TestName5","TestSurname5","49050843791"));
+        data.add(new CreateCustomerDto(7,"TestName6","TestSurname6","93101452542"));
 
         for (CreateCustomerDto dto: data) {
             this.testedService.createCustomer(dto);
         }
 
-        final Set<Long> creditIds = Set.of(1L, 2L, 3L, 4L);
+        final Set<Integer> creditIds = Set.of(1, 2, 3, 4);
         final List<Customer> toMatch = data.stream().map(Customer::new).collect(Collectors.toList());
 
         Set<Customer> customers = this.testedService.getCustomersByCreditIds(creditIds);

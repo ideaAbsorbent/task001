@@ -24,7 +24,7 @@ public class CustomersController {
         this.customersService = customersService;
     }
 
-    @PostMapping("/")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDto creatCustomer(@Valid @RequestBody CreateCustomerDto createCustomerDto) {
        return new CustomerDto(customersService.createCustomer(createCustomerDto));
@@ -33,16 +33,16 @@ public class CustomersController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Set<CustomerDto> getCustomersByCreditIds(@RequestParam List<String> creditsIds) {
-        Set<Long> ids = creditsIds.stream().map(this::castParamToLong).collect(Collectors.toSet());
+        Set<Integer> ids = creditsIds.stream().map(this::castParamToInt).collect(Collectors.toSet());
 
         return customersService.getCustomersByCreditIds(ids).stream().map(CustomerDto::new).collect(Collectors.toSet());
     }
 
-    private Long castParamToLong(String value) {
+    private Integer castParamToInt(String value) {
         try {
-            return Long.valueOf(value);
+            return Integer.valueOf(value);
         } catch (NumberFormatException e) {
-            throw new RequestParamFormatException(value, "Long");
+            throw new RequestParamFormatException(value, "Integer");
         }
     }
 }

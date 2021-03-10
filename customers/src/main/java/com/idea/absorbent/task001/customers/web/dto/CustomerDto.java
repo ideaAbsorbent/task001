@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class CustomerDto {
-    private Long id;
+    private Integer id;
 
-    private Long creditId;
+    private Integer creditId;
 
     private String firstName;
 

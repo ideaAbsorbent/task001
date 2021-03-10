@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface CustomersRepository extends JpaRepository<Customer, Long> {
+public interface CustomersRepository extends JpaRepository<Customer, Integer> {
 
-    Set<Customer> getCustomersByCreditIdIn(Iterable<Long> iterable);
+    Set<Customer> getCustomersByCreditIdIn(Iterable<Integer> iterable);
 
-    Boolean existsByCreditIdAndPesel(Long creditId, String pesel);
+    Boolean existsByCreditIdAndPesel(Integer creditId, String pesel);
 }

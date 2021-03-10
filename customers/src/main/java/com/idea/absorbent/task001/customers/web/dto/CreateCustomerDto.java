@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 public class CreateCustomerDto {
 
     @Min(value = 0, message = "creditId must be greater or equal than 0")
-    private Long creditId;
+    private Integer creditId;
 
     @NotBlank(message = "firstName may not be empty")
     private String firstName;
