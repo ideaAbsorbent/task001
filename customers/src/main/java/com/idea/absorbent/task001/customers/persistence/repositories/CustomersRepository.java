@@ -10,4 +10,6 @@ import java.util.Set;
 public interface CustomersRepository extends JpaRepository<Customer, Long> {
 
     Set<Customer> getCustomersByCreditIdIn(Iterable<Long> iterable);
+
+    Boolean existsByCreditIdAndPesel(Long creditId, String pesel);
 }

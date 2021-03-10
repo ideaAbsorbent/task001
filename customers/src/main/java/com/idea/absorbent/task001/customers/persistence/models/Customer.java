@@ -15,7 +15,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Customer {
 
-    //TODO ADD CONSTRAIN UNIQUE CONSTRAIN TO CreditID + Pesel
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "Customers_ID_seq")
     @Column(name = "ID")

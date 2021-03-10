@@ -4,6 +4,7 @@ import com.idea.absorbent.task001.customers.persistence.models.Customer;
 import com.idea.absorbent.task001.customers.services.CustomersService;
 import com.idea.absorbent.task001.customers.web.dto.CreateCustomerDto;
 
+import com.idea.absorbent.task001.customers.web.error.ResourceAlreadyExistsException;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -44,6 +45,20 @@ public class CustomersServiceIT {
         );
     }
 
+    @Test
+    @Transactional
+    void shouldThrowException() {
+        //given an existing customer
+        CreateCustomerDto dto = new CreateCustomerDto(12L,"TestName","TestSurname","84010329229");
+        Customer customer =  this.testedService.createCustomer(dto);
+
+        CreateCustomerDto duplicate = new CreateCustomerDto(12L,"differentName","differentSurname","84010329229");
+        //when creating a duplicate
+
+        //should throw and exception
+        assertThrows(ResourceAlreadyExistsException.class, () -> this.testedService.createCustomer(duplicate));
+    }
+
     @TestFactory
      Iterable<DynamicTest> shouldRetrieveCustomers() {
         List<CreateCustomerDto> data = new ArrayList<>();
@@ -67,7 +82,7 @@ public class CustomersServiceIT {
         customers.forEach(
             customer -> {
                tests.add(dynamicTest("customerId should exists in request param", () -> assertTrue(creditIds.contains(customer.getCreditId()))));
-               tests.add(dynamicTest("customer was created in test", () -> assertEquals(Optional.of(customer),matchingCustomer(customer, toMatch))));
+               tests.add(dynamicTest("customer was created in this test", () -> assertEquals(Optional.of(customer), matchingCustomer(customer, toMatch))));
             }
         );
         return tests;
