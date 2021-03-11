@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -74,4 +75,65 @@ public class CreditServiceIT {
         return tests;
     }
 
+    @Transactional
+    @TestFactory
+    Iterable<DynamicTest> shouldGetCreditsList() {
+
+        //Given some credits
+        creatDataForShouldGetCreditsList();
+
+        //when getting full response data
+        Set<FullResponseDto> credits = testedService.getCreditsWithCustomersAndProducts();
+
+        //should
+        List<DynamicTest> tests = new ArrayList<>();
+
+        credits.forEach(element -> {
+            tests.add(dynamicTest("has name", () -> assertNotNull(element.getName())));
+            tests.add(dynamicTest("has Customer data", () -> assertNotNull(element.getCustomerDto())));
+            tests.add(dynamicTest("has Product data", () -> assertNotNull(element.getProductDto())));
+        });
+
+        return tests;
+    }
+
+
+    private void creatDataForShouldGetCreditsList() {
+        //TODO some more reasonable name
+        CreateProductDto createProductDto = new CreateProductDto();
+        createProductDto.setValue(1200);
+        CreateCustomerDto createCustomerDto = new CreateCustomerDto();
+        createCustomerDto.setFirstname("testName");
+        createCustomerDto.setSurname("testSurname");
+        createCustomerDto.setPesel("85022463945");
+
+        CreateCreditDto creditDto = new CreateCreditDto("testCredit", createCustomerDto, createProductDto);
+
+        Mockito.when(productsService.creatProduct(Mockito.any(CreateProductRequestBody.class)))
+                .thenReturn(new ProductDto(createProductDto.getValue()));
+
+        Mockito.when(customersService.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
+                .thenReturn(new CustomerDto(createCustomerDto.getFirstname(), createCustomerDto.getSurname(), createCustomerDto.getPesel()));
+
+        Credit creditA = testedService.createCredit(creditDto);
+
+        CustomerDto customerDto = new CustomerDto(
+                creditA.getId(),
+            createCustomerDto.getFirstname(),
+            createCustomerDto.getSurname(),
+            createCustomerDto.getPesel()
+        );
+
+        ProductDto productDto = new ProductDto(
+                creditA.getId(),
+                createProductDto.getValue()
+        );
+
+        Mockito.when(customersService.getCustomersByCreditIds(Set.of(creditA.getId())))
+                .thenReturn(Set.of(customerDto));
+
+        Mockito.when(productsService.getProductsByCustomerId(Set.of(creditA.getId())))
+                .thenReturn(Set.of(productDto));
+
+    }
 }

@@ -22,7 +22,7 @@ public class ProductsService {
         this.restTemplate = new RestTemplate();
     }
 
-    public Set<ProductDto> getCustomersByCreditIds(Set<Integer> ids) {
+    public Set<ProductDto> getProductsByCustomerId(Set<Integer> ids) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(productsUri);
         builder.queryParam("creditsIds", ids);
         URI uri = builder.build().toUri();

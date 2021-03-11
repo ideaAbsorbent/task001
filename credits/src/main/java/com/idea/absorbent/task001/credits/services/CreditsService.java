@@ -8,6 +8,13 @@ import com.idea.absorbent.task001.credits.persistence.repositories.CreditsReposi
 import com.idea.absorbent.task001.credits.web.dto.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Service
 public class CreditsService {
 
@@ -48,18 +55,22 @@ public class CreditsService {
         return creditsRepository.save(credit);
     }
 
+    public Set<FullResponseDto> getCreditsWithCustomersAndProducts() {
 
-    //TODO get Credits
-//    public Set<Credit> getCredits(Set<Integer> creditIds) {
-//        /*
-//        * get all credits with ids
-//        *
-//        * get all customers with ids
-//        *
-//        * get all products with ids
-//        *
-//        * map credits to dto + map customers + map products
-//        */
-//    }
+        List<Credit> creds = creditsRepository.findAll();
+        Set<Integer> creditIds = creds.stream().map(Credit::getId).collect(Collectors.toSet());
+
+
+        Stream<CustomerDto> customers = customersService.getCustomersByCreditIds(creditIds).stream();
+        Stream<ProductDto> products = productsService.getProductsByCustomerId(creditIds).stream();
+
+        HashMap<Integer, FullResponseDto> responseData = new HashMap<>();
+
+        creds.forEach(credit -> responseData.put(credit.getId(), new FullResponseDto(credit.getName())));
+        customers.forEach(customer -> responseData.get(customer.getCreditId()).setCustomerDto(customer));
+        products.forEach(product -> responseData.get(product.getCreditId()).setProductDto(product));
+
+        return new HashSet<>(responseData.values());
+    }
 
 }

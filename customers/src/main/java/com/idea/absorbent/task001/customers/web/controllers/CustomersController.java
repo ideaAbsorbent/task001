@@ -1,6 +1,5 @@
 package com.idea.absorbent.task001.customers.web.controllers;
 
-import com.idea.absorbent.task001.customers.persistence.models.Customer;
 import com.idea.absorbent.task001.customers.services.CustomersService;
 import com.idea.absorbent.task001.customers.web.dto.CreateCustomerDto;
 import com.idea.absorbent.task001.customers.web.dto.CustomerDto;
