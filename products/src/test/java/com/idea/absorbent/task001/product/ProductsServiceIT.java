@@ -37,7 +37,7 @@ public class ProductsServiceIT {
         //when creating the customer
         Product product =  this.testedService.createProduct(dto);
 
-        //should return a correct customer
+        //then return a correct customer
         assertAll(
             () -> assertEquals(product.getValue(), dto.getValue(), "value is correct"),
             () -> assertEquals(product.getCreditId(), dto.getCreditId(),"creditId is correct"),
@@ -55,7 +55,7 @@ public class ProductsServiceIT {
         CreateProductDto duplicate = new CreateProductDto(12,570000);
         //when creating a duplicate
 
-        //should throw and exception
+        //then throw and exception
         assertThrows(ResourceAlreadyExistsException.class, () -> this.testedService.createProduct(duplicate));
     }
 

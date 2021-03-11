@@ -35,7 +35,7 @@ public class CustomersServiceIT {
         //when creating the customer
         Customer customer =  this.testedService.createCustomer(dto);
 
-        //should return a correct customer
+        //then return a correct customer
         assertAll(
             () -> assertEquals(customer.getFirstName(), dto.getFirstName(),"first name is correct"),
             () -> assertEquals(customer.getSurname(), dto.getSurname(), "surname is correct"),
@@ -55,7 +55,7 @@ public class CustomersServiceIT {
         CreateCustomerDto duplicate = new CreateCustomerDto(12,"differentName","differentSurname","84010329229");
         //when creating a duplicate
 
-        //should throw and exception
+        //then throw and exception
         assertThrows(ResourceAlreadyExistsException.class, () -> this.testedService.createCustomer(duplicate));
     }
 

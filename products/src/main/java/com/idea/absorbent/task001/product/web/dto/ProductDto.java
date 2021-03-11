@@ -12,7 +12,7 @@ public class ProductDto {
 
     private Integer creditId;
 
-    private Integer Value;
+    private Integer value;
 
     public ProductDto(Product p) {
         this(
