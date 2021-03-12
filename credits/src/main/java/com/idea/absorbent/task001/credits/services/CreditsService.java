@@ -55,7 +55,7 @@ public class CreditsService {
         return creditsRepository.save(credit);
     }
 
-    public Set<FullResponseDto> getCreditsWithCustomersAndProducts() {
+    public Set<CreditFullRespDto> getCreditsWithCustomersAndProducts() {
 
         List<Credit> creds = creditsRepository.findAll();
         Set<Integer> creditIds = creds.stream().map(Credit::getId).collect(Collectors.toSet());
@@ -64,13 +64,12 @@ public class CreditsService {
         Stream<CustomerDto> customers = customersService.getCustomersByCreditIds(creditIds).stream();
         Stream<ProductDto> products = productsService.getProductsByCustomerId(creditIds).stream();
 
-        HashMap<Integer, FullResponseDto> responseData = new HashMap<>();
+        HashMap<Integer, CreditFullRespDto> responseData = new HashMap<>();
 
-        creds.forEach(credit -> responseData.put(credit.getId(), new FullResponseDto(credit.getName())));
-        customers.forEach(customer -> responseData.get(customer.getCreditId()).setCustomerDto(customer));
-        products.forEach(product -> responseData.get(product.getCreditId()).setProductDto(product));
+        creds.forEach(credit -> responseData.put(credit.getId(), new CreditFullRespDto(credit.getName())));
+        customers.forEach(customer -> responseData.get(customer.getCreditId()).setCustomerResponse(customer));
+        products.forEach(product -> responseData.get(product.getCreditId()).setProductResponse(product));
 
         return new HashSet<>(responseData.values());
     }
-
 }

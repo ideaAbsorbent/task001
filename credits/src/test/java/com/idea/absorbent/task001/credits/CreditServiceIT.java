@@ -29,14 +29,14 @@ import java.util.Set;
 public class CreditServiceIT {
 
     private CreditsService testedService;
-    private ProductsService productsService;
-    private CustomersService customersService;
+    private ProductsService productsServiceMock;
+    private CustomersService customersServiceMock;
 
     @Autowired
     public CreditServiceIT(CreditsRepository creditsRepository) {
-        this.productsService = Mockito.mock(ProductsService.class);
-        this.customersService = Mockito.mock(CustomersService.class);
-        this.testedService = new CreditsService(creditsRepository, productsService, customersService);
+        this.productsServiceMock = Mockito.mock(ProductsService.class);
+        this.customersServiceMock = Mockito.mock(CustomersService.class);
+        this.testedService = new CreditsService(creditsRepository, productsServiceMock, customersServiceMock);
     }
 
     @Transactional
@@ -52,10 +52,10 @@ public class CreditServiceIT {
 
         CreateCreditDto creditDto = new CreateCreditDto("testCredit", customerDto, productDto);
 
-        Mockito.when(productsService.creatProduct(Mockito.any(CreateProductRequestBody.class)))
+        Mockito.when(productsServiceMock.creatProduct(Mockito.any(CreateProductRequestBody.class)))
                 .thenReturn(new ProductDto(productDto.getValue()));
 
-        Mockito.when(customersService.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
+        Mockito.when(customersServiceMock.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
                 .thenReturn(new CustomerDto(customerDto.getFirstname(), customerDto.getSurname(), customerDto.getPesel()));
 
         //then
@@ -83,15 +83,15 @@ public class CreditServiceIT {
         creatDataForShouldGetCreditsList();
 
         //when getting full response data
-        Set<FullResponseDto> credits = testedService.getCreditsWithCustomersAndProducts();
+        Set<CreditFullRespDto> credits = testedService.getCreditsWithCustomersAndProducts();
 
         //should
         List<DynamicTest> tests = new ArrayList<>();
 
         credits.forEach(element -> {
             tests.add(dynamicTest("has name", () -> assertNotNull(element.getName())));
-            tests.add(dynamicTest("has Customer data", () -> assertNotNull(element.getCustomerDto())));
-            tests.add(dynamicTest("has Product data", () -> assertNotNull(element.getProductDto())));
+            tests.add(dynamicTest("has Customer data", () -> assertNotNull(element.getCustomerResponse())));
+            tests.add(dynamicTest("has Product data", () -> assertNotNull(element.getProductResponse())));
         });
 
         return tests;
@@ -109,10 +109,10 @@ public class CreditServiceIT {
 
         CreateCreditDto creditDto = new CreateCreditDto("testCredit", createCustomerDto, createProductDto);
 
-        Mockito.when(productsService.creatProduct(Mockito.any(CreateProductRequestBody.class)))
+        Mockito.when(productsServiceMock.creatProduct(Mockito.any(CreateProductRequestBody.class)))
                 .thenReturn(new ProductDto(createProductDto.getValue()));
 
-        Mockito.when(customersService.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
+        Mockito.when(customersServiceMock.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
                 .thenReturn(new CustomerDto(createCustomerDto.getFirstname(), createCustomerDto.getSurname(), createCustomerDto.getPesel()));
 
         Credit creditA = testedService.createCredit(creditDto);
@@ -129,10 +129,10 @@ public class CreditServiceIT {
                 createProductDto.getValue()
         );
 
-        Mockito.when(customersService.getCustomersByCreditIds(Set.of(creditA.getId())))
+        Mockito.when(customersServiceMock.getCustomersByCreditIds(Set.of(creditA.getId())))
                 .thenReturn(Set.of(customerDto));
 
-        Mockito.when(productsService.getProductsByCustomerId(Set.of(creditA.getId())))
+        Mockito.when(productsServiceMock.getProductsByCustomerId(Set.of(creditA.getId())))
                 .thenReturn(Set.of(productDto));
 
     }

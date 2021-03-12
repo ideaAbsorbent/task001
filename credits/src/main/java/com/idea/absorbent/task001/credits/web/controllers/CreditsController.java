@@ -3,7 +3,7 @@ package com.idea.absorbent.task001.credits.web.controllers;
 import com.idea.absorbent.task001.credits.services.CreditsService;
 import com.idea.absorbent.task001.credits.web.dto.CreateCreditDto;
 import com.idea.absorbent.task001.credits.web.dto.CreditDto;
-import com.idea.absorbent.task001.credits.web.dto.FullResponseDto;
+import com.idea.absorbent.task001.credits.web.dto.CreditFullRespDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ public class CreditsController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Set<FullResponseDto> getCredits() {
+    public Set<CreditFullRespDto> getCredits() {
 
         return creditsService.getCreditsWithCustomersAndProducts();
     }

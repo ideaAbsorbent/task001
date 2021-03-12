@@ -12,7 +12,7 @@ import java.util.Set;
 @Repository
 public interface CreditsRepository extends JpaRepository<Credit, Integer> {
 
-    @Query(value = "SELECT nextval('credits_ID_seq')", nativeQuery = true)
+    @Query(value = "SELECT nextval('credits_id_seq')", nativeQuery = true)
     Integer getNextValMySequence();
 
     @Override

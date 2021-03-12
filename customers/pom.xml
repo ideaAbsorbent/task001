@@ -8,9 +8,9 @@
 		<version>0.0.1</version>
 	</parent>
 	<groupId>com.ideaAbsorbent</groupId>
-	<artifactId>Task001-Customers</artifactId>
+	<artifactId>task001.customers</artifactId>
 	<version>0.0.1</version>
-	<name>Task001-Customers</name>
+	<name>task001.customers</name>
 	<description>Simple service for customers</description>
 	<properties>
 		<java.version>11</java.version>
