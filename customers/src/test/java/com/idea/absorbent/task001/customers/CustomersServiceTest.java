@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class CustomersServiceIT {
+public class CustomersServiceTest {
 
     @Autowired
     CustomersService testedService;
@@ -47,7 +47,7 @@ public class CustomersServiceIT {
 
     @Test
     @Transactional
-    void shouldResourceAlreadyExists() {
+    void shouldThrowResourceAlreadyExists() {
         //given an existing customer
         CreateCustomerDto dto = new CreateCustomerDto(12,"TestName","TestSurname","84010329229");
         Customer customer =  this.testedService.createCustomer(dto);

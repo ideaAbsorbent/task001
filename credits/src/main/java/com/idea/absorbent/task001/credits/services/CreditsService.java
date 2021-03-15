@@ -6,6 +6,7 @@ import com.idea.absorbent.task001.credits.persistence.models.Credit;
 import com.idea.absorbent.task001.credits.persistence.repositories.CreditsRepository;
 
 import com.idea.absorbent.task001.credits.web.dto.*;
+import com.idea.absorbent.task001.credits.web.error.ServiceUnavailableException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -47,8 +48,19 @@ public class CreditsService {
                 productDto.getValue()
         );
         //TODO error handling
-        ProductDto p = productsService.creatProduct(productRequestBody);
-        CustomerDto c = customersService.creatCustomer(customerReqBody);
+        ProductDto p;
+        try {
+            p = productsService.creatProduct(productRequestBody);
+        } catch (Exception e) {
+            throw new ServiceUnavailableException();
+        }
+
+        try {
+            CustomerDto c = customersService.creatCustomer(customerReqBody);
+        } catch (Exception e) {
+            productsService.removeProduct(p.getId());
+            throw new ServiceUnavailableException();
+        }
 
         Credit credit = new Credit(CreditDto.getName());
         credit.setId(nextId);
@@ -60,9 +72,14 @@ public class CreditsService {
         List<Credit> creds = creditsRepository.findAll();
         Set<Integer> creditIds = creds.stream().map(Credit::getId).collect(Collectors.toSet());
 
-
-        Stream<CustomerDto> customers = customersService.getCustomersByCreditIds(creditIds).stream();
-        Stream<ProductDto> products = productsService.getProductsByCustomerId(creditIds).stream();
+        Stream<CustomerDto> customers;
+        Stream<ProductDto> products;
+        try {
+            customers = customersService.getCustomersByCreditIds(creditIds).stream();
+            products = productsService.getProductsByCustomerId(creditIds).stream();
+        } catch (Exception e) {
+            throw new ServiceUnavailableException();
+        }
 
         HashMap<Integer, CreditFullRespDto> responseData = new HashMap<>();
 

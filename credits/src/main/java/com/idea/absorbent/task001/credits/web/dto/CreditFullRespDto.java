@@ -35,7 +35,6 @@ public class CreditFullRespDto {
     }
 
     public void setCustomerResponse(CustomerDto customerDto) {
-
         this.customerResponse = new CustomerResponse(
                 customerDto.getFirstName(),
                 customerDto.getSurname(),

@@ -11,6 +11,7 @@ import com.idea.absorbent.task001.credits.web.dto.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 
 import org.junit.jupiter.api.TestFactory;
@@ -26,14 +27,14 @@ import java.util.Set;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class CreditServiceIT {
+public class CreditServiceTest {
 
     private CreditsService testedService;
     private ProductsService productsServiceMock;
     private CustomersService customersServiceMock;
 
     @Autowired
-    public CreditServiceIT(CreditsRepository creditsRepository) {
+    public CreditServiceTest(CreditsRepository creditsRepository) {
         this.productsServiceMock = Mockito.mock(ProductsService.class);
         this.customersServiceMock = Mockito.mock(CustomersService.class);
         this.testedService = new CreditsService(creditsRepository, productsServiceMock, customersServiceMock);
@@ -42,7 +43,7 @@ public class CreditServiceIT {
     @Transactional
     @TestFactory
     Iterable<DynamicTest> shouldCreatCredit() {
-        //given request
+        //Given request
         CreateProductDto productDto = new CreateProductDto();
         productDto.setValue(1200);
         CreateCustomerDto customerDto = new CreateCustomerDto();
@@ -58,10 +59,10 @@ public class CreditServiceIT {
         Mockito.when(customersServiceMock.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
                 .thenReturn(new CustomerDto(customerDto.getFirstname(), customerDto.getSurname(), customerDto.getPesel()));
 
-        //then
+        //When
         Credit credit = testedService.createCredit(creditDto);
 
-        //should
+        //Then
         List<DynamicTest> tests = new ArrayList<>();
         tests.add(dynamicTest("Credit id should be set",
                 () -> assertNotNull(credit.getId())));
@@ -82,10 +83,10 @@ public class CreditServiceIT {
         //Given some credits
         creatDataForShouldGetCreditsList();
 
-        //when getting full response data
+        //When getting full response data
         Set<CreditFullRespDto> credits = testedService.getCreditsWithCustomersAndProducts();
 
-        //should
+        //Then
         List<DynamicTest> tests = new ArrayList<>();
 
         credits.forEach(element -> {
@@ -125,6 +126,7 @@ public class CreditServiceIT {
         );
 
         ProductDto productDto = new ProductDto(
+                1,
                 creditA.getId(),
                 createProductDto.getValue()
         );
@@ -134,6 +136,10 @@ public class CreditServiceIT {
 
         Mockito.when(productsServiceMock.getProductsByCustomerId(Set.of(creditA.getId())))
                 .thenReturn(Set.of(productDto));
+    }
 
+    @BeforeEach
+    private void resetMocks() {
+        Mockito.reset(customersServiceMock, productsServiceMock);
     }
 }

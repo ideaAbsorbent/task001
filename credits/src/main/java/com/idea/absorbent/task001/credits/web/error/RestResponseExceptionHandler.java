@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -17,6 +18,21 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
+
+
+    @ExceptionHandler(ServiceUnavailableException.class)
+    protected ResponseEntity<Object> handleRequestParamFormatException(
+            ServiceUnavailableException ex, WebRequest request) {
+
+        Map<String, Object> body = new ApiError(
+                HttpStatus.SERVICE_UNAVAILABLE.getReasonPhrase(),
+                String.valueOf(HttpStatus.SERVICE_UNAVAILABLE.value()),
+                ex.getMessage())
+                .getResponseBody();
+
+        return handleExceptionInternal(ex, body,
+                new HttpHeaders(), HttpStatus.SERVICE_UNAVAILABLE, request);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(

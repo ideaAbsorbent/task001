@@ -5,11 +5,11 @@
 	<parent>
 		<artifactId>task001</artifactId>
 		<groupId>org.idea.absorbent</groupId>
-		<version>0.0.1</version>
+		<version>0.9.0</version>
 	</parent>
 	<groupId>com.ideaAbsorbent</groupId>
 	<artifactId>task001.credits</artifactId>
-	<version>0.0.1</version>
+	<version>0.9.0</version>
 	<name>task001.credits</name>
 	<description>Simple service for credits</description>
 	<properties>
@@ -25,6 +25,48 @@
 	</dependencies>
 
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.8.0</version>
+				<configuration>
+					<to>
+						<image>${project.artifactId}:${project.version}</image>
+					</to>
+					<mainClass>com.idea.absorbent.task001.credits.CreditsApp</mainClass>
+					<ports>
+						<port>8080</port>
+					</ports>
+					<user>nobody</user>
+					<environment>
+						<application.title>${project.name}</application.title>
+						<application.version>${project.version}</application.version>
+					</environment>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>docker-build</id>
+						<phase>install</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<executable>mvn</executable>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<arguments>
+								<argument>compile</argument>
+								<argument>jib:dockerBuild</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
-
 </project>

@@ -36,6 +36,12 @@ public class ProductsController {
         return productsService.getCustomersByCreditIds(ids).stream().map(ProductDto::new).collect(Collectors.toSet());
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCustomer(@PathVariable int id) {
+        productsService.removeProduct(id);
+    }
+
     private Integer castParamToInt(String value) {
         try {
             return Integer.valueOf(value);

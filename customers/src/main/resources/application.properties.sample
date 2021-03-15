@@ -1,0 +1,20 @@
+spring.main.banner-mode=off
+logging.level.org.springframework=error
+
+server.port=8080
+
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.globally_quoted_identifiers=true
+
+spring.datasource.initialization-mode=always
+spring.datasource.platform=postgres
+spring.datasource.url=jdbc:postgresql://dbhost:5432/customersdb
+spring.datasource.username=customers_service
+spring.datasource.password=password

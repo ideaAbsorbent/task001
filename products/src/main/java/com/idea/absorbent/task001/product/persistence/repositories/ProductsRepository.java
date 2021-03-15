@@ -12,4 +12,7 @@ public interface ProductsRepository extends JpaRepository<Product, Integer> {
     Set<Product> getProductByCreditIdIn(Iterable<Integer> iterable);
 
     Boolean existsByCreditId(Integer creditId);
+
+    @Override
+    void deleteById(Integer integer);
 }

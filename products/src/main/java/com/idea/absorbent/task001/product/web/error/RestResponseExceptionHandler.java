@@ -19,6 +19,20 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    protected ResponseEntity<Object> handleResourceNotFoundException(
+            ResourceNotFoundException ex, WebRequest request) {
+
+        Map<String, Object> body = new ApiError(
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                String.valueOf(HttpStatus.NOT_FOUND.value()),
+                ex.getMessage())
+                .getResponseBody();
+
+        return handleExceptionInternal(ex, body,
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
     @ExceptionHandler(RequestParamFormatException.class)
     protected ResponseEntity<Object> handleRequestParamFormatException(
             RequestParamFormatException ex, WebRequest request) {

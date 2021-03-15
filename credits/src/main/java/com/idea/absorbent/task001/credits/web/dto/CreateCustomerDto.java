@@ -18,7 +18,7 @@ public class CreateCustomerDto {
     @NotBlank(message = "surname may not be empty")
     private String surname;
 
-    @NotBlank
+    @NotBlank(message = "pesel may not be empty")
     @PESEL
     private String pesel;
 }

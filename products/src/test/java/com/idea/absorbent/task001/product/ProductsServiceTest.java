@@ -4,6 +4,7 @@ import com.idea.absorbent.task001.product.web.error.ResourceAlreadyExistsExcepti
 import com.idea.absorbent.task001.product.persistence.models.Product;
 import com.idea.absorbent.task001.product.services.ProductsService;
 import com.idea.absorbent.task001.product.web.dto.CreateProductDto;
+import com.idea.absorbent.task001.product.web.error.ResourceNotFoundException;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class ProductsServiceIT {
+public class ProductsServiceTest {
 
     @Autowired
     ProductsService testedService;
@@ -52,14 +53,15 @@ public class ProductsServiceIT {
         CreateProductDto dto = new CreateProductDto(12,455000);
         Product product =  this.testedService.createProduct(dto);
 
-        CreateProductDto duplicate = new CreateProductDto(12,570000);
         //when creating a duplicate
+        CreateProductDto duplicate = new CreateProductDto(12,570000);
 
         //then throw and exception
         assertThrows(ResourceAlreadyExistsException.class, () -> this.testedService.createProduct(duplicate));
     }
 
     @TestFactory
+    @Transactional
      Iterable<DynamicTest> shouldRetrieveCustomers() {
         List<CreateProductDto> data = new ArrayList<>();
 
@@ -86,6 +88,31 @@ public class ProductsServiceIT {
             }
         );
         return tests;
+    }
+
+    @Test
+    @Transactional
+    void shouldRemoveProduct() {
+        //given a saved product
+        CreateProductDto dto = new CreateProductDto(76, 98400);
+        Product product =  this.testedService.createProduct(dto);
+
+        //when removing product
+        testedService.removeProduct(product.getId());
+
+        //should remove form db
+        assertFalse(testedService.productExists(product.getId()));
+    }
+
+    @Test
+    @Transactional
+    void shouldThrowResourceNotFoundException() {
+        //given a non existing product id
+        final int id = 105;
+
+        //when removing product
+        //should throw ResourceNotFoundException
+        assertThrows(ResourceNotFoundException.class, () -> testedService.removeProduct(id));
     }
 
     private Optional<Product> matchingProduct(Product product, List<Product> products) {
