@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("api/customers")
 public class CustomersController {
-    //TODO add error handling
 
     private CustomersService customersService;
 

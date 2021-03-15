@@ -47,7 +47,6 @@ public class CreditsService {
                 productDto.getCreditId(),
                 productDto.getValue()
         );
-        //TODO error handling
         ProductDto p;
         try {
             p = productsService.creatProduct(productRequestBody);
