@@ -42,7 +42,7 @@ public class CreditServiceTest {
 
     @Transactional
     @TestFactory
-    Iterable<DynamicTest> shouldCreatCredit() {
+    Iterable<DynamicTest> shouldCreateCredit() {
         //Given request
         CreateProductDto productDto = new CreateProductDto();
         productDto.setValue(1200);
@@ -53,10 +53,10 @@ public class CreditServiceTest {
 
         CreateCreditDto creditDto = new CreateCreditDto("testCredit", customerDto, productDto);
 
-        Mockito.when(productsServiceMock.creatProduct(Mockito.any(CreateProductRequestBody.class)))
+        Mockito.when(productsServiceMock.createProduct(Mockito.any(CreateProductRequestBody.class)))
                 .thenReturn(new ProductDto(productDto.getValue()));
 
-        Mockito.when(customersServiceMock.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
+        Mockito.when(customersServiceMock.createCustomer((Mockito.any(CreateCustomerRequestBody.class))))
                 .thenReturn(new CustomerDto(customerDto.getFirstname(), customerDto.getSurname(), customerDto.getPesel()));
 
         //When
@@ -81,7 +81,7 @@ public class CreditServiceTest {
     Iterable<DynamicTest> shouldGetCreditsList() {
 
         //Given some credits
-        creatDataForShouldGetCreditsList();
+        createDataForShouldGetCreditsList();
 
         //When getting full response data
         Set<CreditFullRespDto> credits = testedService.getCreditsWithCustomersAndProducts();
@@ -99,7 +99,7 @@ public class CreditServiceTest {
     }
 
 
-    private void creatDataForShouldGetCreditsList() {
+    private void createDataForShouldGetCreditsList() {
         //TODO some more reasonable name
         CreateProductDto createProductDto = new CreateProductDto();
         createProductDto.setValue(1200);
@@ -110,10 +110,10 @@ public class CreditServiceTest {
 
         CreateCreditDto creditDto = new CreateCreditDto("testCredit", createCustomerDto, createProductDto);
 
-        Mockito.when(productsServiceMock.creatProduct(Mockito.any(CreateProductRequestBody.class)))
+        Mockito.when(productsServiceMock.createProduct(Mockito.any(CreateProductRequestBody.class)))
                 .thenReturn(new ProductDto(createProductDto.getValue()));
 
-        Mockito.when(customersServiceMock.creatCustomer((Mockito.any(CreateCustomerRequestBody.class))))
+        Mockito.when(customersServiceMock.createCustomer((Mockito.any(CreateCustomerRequestBody.class))))
                 .thenReturn(new CustomerDto(createCustomerDto.getFirstname(), createCustomerDto.getSurname(), createCustomerDto.getPesel()));
 
         Credit creditA = testedService.createCredit(creditDto);

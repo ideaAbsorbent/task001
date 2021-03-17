@@ -39,7 +39,7 @@ public class CustomersService {
         return Set.of(response.getBody());
     }
 
-    public CustomerDto creatCustomer(CreateCustomerRequestBody dto) {
+    public CustomerDto createCustomer(CreateCustomerRequestBody dto) {
         return restTemplate.postForObject(customersUrl, dto, CustomerDto.class);
     }
 }

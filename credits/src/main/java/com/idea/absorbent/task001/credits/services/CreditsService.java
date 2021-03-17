@@ -47,17 +47,17 @@ public class CreditsService {
                 productDto.getCreditId(),
                 productDto.getValue()
         );
-        ProductDto p;
+        ProductDto responseProductDto;
         try {
-            p = productsService.creatProduct(productRequestBody);
+            responseProductDto = productsService.createProduct(productRequestBody);
         } catch (Exception e) {
             throw new ServiceUnavailableException();
         }
 
         try {
-            CustomerDto c = customersService.creatCustomer(customerReqBody);
+            customersService.createCustomer(customerReqBody);
         } catch (Exception e) {
-            productsService.removeProduct(p.getId());
+            productsService.removeProduct(responseProductDto.getId());
             throw new ServiceUnavailableException();
         }
 
@@ -68,8 +68,8 @@ public class CreditsService {
 
     public Set<CreditFullRespDto> getCreditsWithCustomersAndProducts() {
 
-        List<Credit> creds = creditsRepository.findAll();
-        Set<Integer> creditIds = creds.stream().map(Credit::getId).collect(Collectors.toSet());
+        List<Credit> credits = creditsRepository.findAll();
+        Set<Integer> creditIds = credits.stream().map(Credit::getId).collect(Collectors.toSet());
 
         Stream<CustomerDto> customers;
         Stream<ProductDto> products;
@@ -82,7 +82,7 @@ public class CreditsService {
 
         HashMap<Integer, CreditFullRespDto> responseData = new HashMap<>();
 
-        creds.forEach(credit -> responseData.put(credit.getId(), new CreditFullRespDto(credit.getName())));
+        credits.forEach(credit -> responseData.put(credit.getId(), new CreditFullRespDto(credit.getName())));
         customers.forEach(customer -> responseData.get(customer.getCreditId()).setCustomerResponse(customer));
         products.forEach(product -> responseData.get(product.getCreditId()).setProductResponse(product));
 

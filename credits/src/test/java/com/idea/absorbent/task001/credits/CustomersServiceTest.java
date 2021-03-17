@@ -2,9 +2,7 @@ package com.idea.absorbent.task001.credits;
 
 import com.idea.absorbent.task001.credits.services.CustomersService;
 import com.idea.absorbent.task001.credits.services.remote.dto.CreateCustomerRequestBody;
-import com.idea.absorbent.task001.credits.web.dto.CreateCustomerDto;
 import com.idea.absorbent.task001.credits.web.dto.CustomerDto;
-import com.idea.absorbent.task001.credits.web.dto.ProductDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -69,7 +67,7 @@ public class CustomersServiceTest {
     }
 
     @Test
-    void shouldCreatCustomer() {
+    void shouldCreateCustomer() {
         //Given a valid customer request
         CreateCustomerRequestBody createCustomerDto = new CreateCustomerRequestBody(
         22,
@@ -93,7 +91,7 @@ public class CustomersServiceTest {
         ).thenReturn(response);
 
         //When creating customer
-        CustomerDto customerDto = this.testedService.creatCustomer(createCustomerDto);
+        CustomerDto customerDto = this.testedService.createCustomer(createCustomerDto);
 
         //Then
         assertEquals(testServiceUrl, urlStringCaptor.getValue());

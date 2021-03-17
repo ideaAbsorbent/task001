@@ -41,7 +41,7 @@ public class ProductsService {
         return Set.of(response.getBody());
     }
 
-    public ProductDto creatProduct(CreateProductRequestBody dto) {
+    public ProductDto createProduct(CreateProductRequestBody dto) {
         return restTemplate.postForObject(productsUri, dto, ProductDto.class);
     }
 

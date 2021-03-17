@@ -22,7 +22,7 @@ public class CreditsController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public CreditDto creatCredit(@Valid @RequestBody CreateCreditDto createCreditDto) {
+    public CreditDto createCredit(@Valid @RequestBody CreateCreditDto createCreditDto) {
         return new CreditDto(creditsService.createCredit(createCreditDto));
     }
 

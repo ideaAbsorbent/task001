@@ -1,16 +1,12 @@
 package com.idea.absorbent.task001.credits;
 
 import com.idea.absorbent.task001.credits.services.ProductsService;
-import com.idea.absorbent.task001.credits.services.remote.dto.CreateCustomerRequestBody;
 import com.idea.absorbent.task001.credits.services.remote.dto.CreateProductRequestBody;
-import com.idea.absorbent.task001.credits.web.dto.CreateCustomerDto;
-import com.idea.absorbent.task001.credits.web.dto.CustomerDto;
 import com.idea.absorbent.task001.credits.web.dto.ProductDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +68,7 @@ public class ProductsServiceTest {
     }
 
     @Test
-    void shouldCreatCustomer() {
+    void shouldCreateCustomer() {
         //Given a valid customer request
         CreateProductRequestBody createProductDto = new CreateProductRequestBody(22, 735341);
 
@@ -90,7 +86,7 @@ public class ProductsServiceTest {
         ).thenReturn(response);
 
         //When creating a customer
-        ProductDto productDto = this.testedService.creatProduct(createProductDto);
+        ProductDto productDto = this.testedService.createProduct(createProductDto);
 
         //Then
         assertEquals(testServiceUrl, urlStringCaptor.getValue());
