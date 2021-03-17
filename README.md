@@ -1,7 +1,7 @@
 # task001
 Simple app
 
-##Build
+## Build
 
 configure database users in dbDocker/sql/setup-script.sql <br>
 create application.properties files using application.properties.sample
@@ -44,9 +44,9 @@ run the main web service
     --add-host=productshost:192.168.0.1 \
     task001.credits:0.9.0 
 ````
-##Usage
+## Usage
 
-####Curl
+#### Curl
 
 get all credits<br>
 ``curl --location --request GET 'http://127.0.0.1:8082/api/credits'``
@@ -68,5 +68,5 @@ curl --location --request POST 'http://127.0.0.1:8082/api/credits' \
 }'
 ````
 
-####Postman
+#### Postman
 You can import ``task001.postman_collection.json`` into postman.
