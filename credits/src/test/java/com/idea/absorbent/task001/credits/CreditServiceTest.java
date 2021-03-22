@@ -4,9 +4,9 @@ import com.idea.absorbent.task001.credits.services.remote.dto.CreateCustomerRequ
 import com.idea.absorbent.task001.credits.services.remote.dto.CreateProductRequestBody;
 import com.idea.absorbent.task001.credits.persistence.models.Credit;
 import com.idea.absorbent.task001.credits.persistence.repositories.CreditsRepository;
-import com.idea.absorbent.task001.credits.services.CreditsService;
-import com.idea.absorbent.task001.credits.services.CustomersService;
-import com.idea.absorbent.task001.credits.services.ProductsService;
+import com.idea.absorbent.task001.credits.services.CreditsServiceImpl;
+import com.idea.absorbent.task001.credits.services.CustomersServiceImpl;
+import com.idea.absorbent.task001.credits.services.ProductsServiceImpl;
 import com.idea.absorbent.task001.credits.web.dto.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
@@ -29,15 +29,15 @@ import java.util.Set;
 @ActiveProfiles("test")
 public class CreditServiceTest {
 
-    private CreditsService testedService;
-    private ProductsService productsServiceMock;
-    private CustomersService customersServiceMock;
+    private CreditsServiceImpl testedService;
+    private ProductsServiceImpl productsServiceMock;
+    private CustomersServiceImpl customersServiceMock;
 
     @Autowired
     public CreditServiceTest(CreditsRepository creditsRepository) {
-        this.productsServiceMock = Mockito.mock(ProductsService.class);
-        this.customersServiceMock = Mockito.mock(CustomersService.class);
-        this.testedService = new CreditsService(creditsRepository, productsServiceMock, customersServiceMock);
+        this.productsServiceMock = Mockito.mock(ProductsServiceImpl.class);
+        this.customersServiceMock = Mockito.mock(CustomersServiceImpl.class);
+        this.testedService = new CreditsServiceImpl(creditsRepository, productsServiceMock, customersServiceMock);
     }
 
     @Transactional

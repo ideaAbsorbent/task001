@@ -1,8 +1,8 @@
 package com.idea.absorbent.task001.product;
 
+import com.idea.absorbent.task001.product.services.ProductsServiceImpl;
 import com.idea.absorbent.task001.product.web.error.ResourceAlreadyExistsException;
 import com.idea.absorbent.task001.product.persistence.models.Product;
-import com.idea.absorbent.task001.product.services.ProductsService;
 import com.idea.absorbent.task001.product.web.dto.CreateProductDto;
 import com.idea.absorbent.task001.product.web.error.ResourceNotFoundException;
 import org.junit.jupiter.api.DynamicTest;
@@ -26,12 +26,16 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 @ActiveProfiles("test")
 public class ProductsServiceTest {
 
+    ProductsServiceImpl testedService;
+
     @Autowired
-    ProductsService testedService;
+    public ProductsServiceTest(ProductsServiceImpl testedService) {
+        this.testedService = testedService;
+    }
 
     @Test
     @Transactional
-     void shouldSaveCustomer() {
+     void shouldSaveProduct() {
         //given a valid customer DTO
         CreateProductDto dto = new CreateProductDto(1, 35000);
 
@@ -62,7 +66,7 @@ public class ProductsServiceTest {
 
     @TestFactory
     @Transactional
-     Iterable<DynamicTest> shouldRetrieveCustomers() {
+     Iterable<DynamicTest> shouldRetrieveProducts() {
         List<CreateProductDto> data = new ArrayList<>();
 
         data.add(new CreateProductDto(2,478352042));

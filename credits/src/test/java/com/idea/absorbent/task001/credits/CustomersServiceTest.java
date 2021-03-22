@@ -1,6 +1,6 @@
 package com.idea.absorbent.task001.credits;
 
-import com.idea.absorbent.task001.credits.services.CustomersService;
+import com.idea.absorbent.task001.credits.services.CustomersServiceImpl;
 import com.idea.absorbent.task001.credits.services.remote.dto.CreateCustomerRequestBody;
 import com.idea.absorbent.task001.credits.web.dto.CustomerDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,14 +24,14 @@ import java.util.Set;
 @ActiveProfiles("test")
 public class CustomersServiceTest {
 
-    private CustomersService testedService;
+    private CustomersServiceImpl testedService;
     private RestTemplate restTemplateMock;
 
     private final String testServiceUrl = "https://host:port/api/customers";
 
     public CustomersServiceTest() {
         this.restTemplateMock = Mockito.mock(RestTemplate.class);
-        this.testedService = new CustomersService(testServiceUrl, restTemplateMock);
+        this.testedService = new CustomersServiceImpl(testServiceUrl, restTemplateMock);
     }
 
     @Test

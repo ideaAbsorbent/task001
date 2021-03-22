@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(CustomerServiceUrl.class)
 public class AdditionalConfiguration {
 
-    private CustomerServiceUrl customerServiceUrl;
+    private final CustomerServiceUrl customerServiceUrl;
 
     @Autowired
     public AdditionalConfiguration(CustomerServiceUrl customerServiceUrl) {

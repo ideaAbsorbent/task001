@@ -1,7 +1,7 @@
 package com.idea.absorbent.task001.customers;
 
 import com.idea.absorbent.task001.customers.persistence.models.Customer;
-import com.idea.absorbent.task001.customers.services.CustomersService;
+import com.idea.absorbent.task001.customers.services.CustomersServiceImpl;
 import com.idea.absorbent.task001.customers.web.dto.CreateCustomerDto;
 
 import com.idea.absorbent.task001.customers.web.error.ResourceAlreadyExistsException;
@@ -23,8 +23,12 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 @ActiveProfiles("test")
 public class CustomersServiceTest {
 
+    CustomersServiceImpl testedService;
+
     @Autowired
-    CustomersService testedService;
+    public CustomersServiceTest(CustomersServiceImpl testedService) {
+        this.testedService = testedService;
+    }
 
     @Test
     @Transactional

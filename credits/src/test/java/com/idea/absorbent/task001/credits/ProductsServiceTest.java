@@ -1,6 +1,6 @@
 package com.idea.absorbent.task001.credits;
 
-import com.idea.absorbent.task001.credits.services.ProductsService;
+import com.idea.absorbent.task001.credits.services.ProductsServiceImpl;
 import com.idea.absorbent.task001.credits.services.remote.dto.CreateProductRequestBody;
 import com.idea.absorbent.task001.credits.web.dto.ProductDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,14 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("test")
 public class ProductsServiceTest {
 
-    private ProductsService testedService;
+    private ProductsServiceImpl testedService;
     private RestTemplate restTemplateMock;
 
     private final String testServiceUrl = "https://host:port/api/customers";
 
     public ProductsServiceTest() {
         this.restTemplateMock = Mockito.mock(RestTemplate.class);
-        this.testedService = new ProductsService(testServiceUrl, restTemplateMock);
+        this.testedService = new ProductsServiceImpl(testServiceUrl, restTemplateMock);
     }
 
     @Test
