@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  postgres:
+    build: ./dbDocker/
+    volumes:
+      - psqlDb:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+  products:
+    depends_on:
+      - postgres
+    build: ./products/
+    links:
+      - "postgres:dbhost"
+    restart: always
+  customers:
+    depends_on:
+      - postgres
+    build: ./customers/
+    links:
+      - "postgres:dbhost"
+    restart: always
+  credits:
+    depends_on:
+      - postgres
+      - customers
+      - products
+    build: ./credits/
+    links:
+      - "postgres:dbhost"
+      - "customers:customershost"
+      - "products:productshost"
+    ports:
+      - "8080:8080"
+    restart: always
+volumes:
+  psqlDb: {}
+
